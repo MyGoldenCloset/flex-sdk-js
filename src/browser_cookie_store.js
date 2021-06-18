@@ -1,15 +1,19 @@
 import Cookies from 'js-cookie';
 
-const createStore = () => {
-  const expiration = 30; // 30 days
-  const name = 'mgc-auth-token';
+const generateKey = (clientId, namespace) => `${namespace}-${clientId}-token`;
 
-  const getToken = () => Cookies.getJSON(name);
+const createStore = ({ clientId, secure }) => {
+  const expiration = 30; // 30 days
+  const namespace = 'st';
+  const key = generateKey(clientId, namespace);
+
+  const getToken = () => Cookies.getJSON(key);
   const setToken = tokenData => {
-    Cookies.set(name, tokenData, { expires: expiration, secure: true, sameSite: 'strict' });
+    const secureFlag = secure ? { secure: true } : {};
+    Cookies.set(key, tokenData, { expires: expiration, ...secureFlag });
   };
   const removeToken = () => {
-    Cookies.remove(name);
+    Cookies.remove(key);
   };
 
   return {

@@ -1,6 +1,9 @@
+const generateKey = (clientId, namespace) => `${namespace}-${clientId}-token`;
+
 const createStore = ({ clientId, req, res, secure }) => {
-  const expiration = 15; // 15 days
-  const key = `mgc-auth-token`;
+  const expiration = 30; // 30 days
+  const namespace = 'st';
+  const key = generateKey(clientId, namespace);
 
   // A mutable variable containing the current token.
   // When a `setToken` is called, the current token will be
@@ -26,6 +29,7 @@ const createStore = ({ clientId, req, res, secure }) => {
 
   const setToken = tokenData => {
     currentToken = tokenData;
+    const secureFlag = secure ? { secure: true } : {};
 
     // Manually stringify tokenData.
     // Express supports passing object to `res.cookie` which will be then automatically
@@ -34,8 +38,7 @@ const createStore = ({ clientId, req, res, secure }) => {
     // to read that cookie also in browser, we don't want to produce invalid JSON.
     res.cookie(key, JSON.stringify(tokenData), {
       maxAge: 1000 * 60 * 60 * 24 * expiration,
-      secure: true,
-      sameSite: 'strict'
+      ...secureFlag,
     });
   };
 
