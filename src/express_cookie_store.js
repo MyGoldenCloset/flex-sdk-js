@@ -1,6 +1,6 @@
 const createStore = ({ clientId, req, res, secure }) => {
   const expiration = 15; // 15 days
-  const key = `mgc-token`;
+  const key = `mgc-auth-token`;
 
   // A mutable variable containing the current token.
   // When a `setToken` is called, the current token will be
