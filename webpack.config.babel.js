@@ -1,6 +1,6 @@
 /* eslint-env node */
 const path = require('path');
-const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 // Shared configs
 const entry = './src/index.js';
@@ -40,7 +40,7 @@ const webConfig = {
   target: 'web',
   module,
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
+    new UglifyJSPlugin(),
   ],
 };
 

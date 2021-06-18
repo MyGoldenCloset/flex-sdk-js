@@ -297,6 +297,13 @@ const endpointDefinitions = [
   },
   {
     apiName: 'api',
+    path: 'own_listings/remove',
+    internal: false,
+    method: 'post',
+    interceptors: [new TransitResponse(), new TransitRequest()],
+  },
+  {
+    apiName: 'api',
     path: 'own_listings/add_image',
     internal: false,
     method: 'post',
